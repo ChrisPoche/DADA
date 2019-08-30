@@ -1,0 +1,8 @@
+Color Test Feature Ideas
+
+- Different Numbers can be different color themes. White backdrop (1), Black backdrop (0), Seashore - blue, white, tan (5), Noir - grayscale (6)
+- Different Numbers can be different color themes. White backdrop (1), Black backdrop (0), Seashore - blue, white, tan (5), Noir - grayscale (6)
+	- If it is in a specific theme may force which types of shapes can be drawn - if seashore, may also make those above a certain threshold clouds vs waves, crabs, dolphins, etc
+- Record keystroke log to reverse or playback what you did for the last 5 seconds
+- Have shapes dart off the screen in random directions
+- Right and Left arrow keys make the next click(s) a different shape - can cycle through them. Maybe giving a brief preview of the shape in box that pops up and fades away

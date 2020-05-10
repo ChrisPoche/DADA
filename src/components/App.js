@@ -1,5 +1,6 @@
 import React from 'react';
 import Objects from './Objects';
+import Menu from './Menu';
 
 class App extends React.Component {
   state = {
@@ -198,6 +199,7 @@ class App extends React.Component {
     return (
       <div id='container'>
         {this.state.objects.length > 0 && this.state.objects.map((object, index) => (<Objects id={index + 1} key={'' + index} style={object} />))}
+        <Menu />
       </div>
     )
   };

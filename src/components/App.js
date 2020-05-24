@@ -3,16 +3,25 @@ import Objects from './Objects';
 import Menu from './Menu';
 
 class App extends React.Component {
-  state = {
-    objects: [],
-    size: null,
-    toggle: null,
-    theme: 'light',
-    logging: 'disabled'
-  };
+  constructor(props) {
+    super(props);
+    this.popUpPane = this.popUpPane.bind(this);
+    this.state = {
+      objects: [],
+      size: null,
+      toggle: null,
+      theme: 'light',
+      logging: 'disabled'
+    };
+  }
   componentDidMount() {
     let lastCall = 0;
     let delay = 100;
+    window.addEventListener('resize', () => {
+
+    })
+    window.addEventListener('click', this.createObject);
+    // window.addEventListener('contextmenu', (e) => e.preventDefault());
     window.addEventListener('keydown', (e) => {
       const now = (new Date).getTime();
       if (now - lastCall < delay) {
@@ -21,7 +30,7 @@ class App extends React.Component {
       else {
 
         lastCall = now;
-        if(this.state.logging == 'enabled') console.log('e', e);
+        if (this.state.logging == 'enabled') console.log('e', e);
         if (e.keyCode == 27) this.resetBackground(); // esc
         else if (e.keyCode == 76 && e.shiftKey == true && e.altKey == true) this.setState(() => this.state.logging == 'enabled' ? ({ logging: 'disabled' }) : ({ logging: 'enabled' })); // alt + shift + l
         else if (e.keyCode == 57 && e.shiftKey == true && e.altKey == true) this.setTheme('light'); // alt + shift + 9
@@ -45,7 +54,7 @@ class App extends React.Component {
     });
   };
   componentDidUpdate() {
-    if(this.state.logging == 'enabled') console.log('state', this.state);
+    if (this.state.logging == 'enabled') console.log('state', this.state);
   }
   HSVtoRGB = (hue, saturation, value) => {
     var r, g, b;
@@ -146,7 +155,7 @@ class App extends React.Component {
     for (var i = 0; i < objects.length; i++) {
       objects[i].style.height = height;
       objects[i].classList.add('melting');
-      objects[i].addEventListener('animationend',() => {
+      objects[i].addEventListener('animationend', () => {
         objects[i].classList.remove('melting');
       });
     }
@@ -195,11 +204,25 @@ class App extends React.Component {
     }
     this.setState(() => ({ size: height }))
   }
+  popUpPane = (origin) => {
+    let pane = document.getElementById('popUpPane');
+    if (origin === 'close') pane.className = 'hidden-pane';
+    if (origin.includes('text')) {
+      pane.className = '';
+      this.setState({ popUp: origin.split('-')[1] });
+    };
+  }
   render() {
     return (
       <div id='container'>
         {this.state.objects.length > 0 && this.state.objects.map((object, index) => (<Objects id={index + 1} key={'' + index} style={object} />))}
-        <Menu />
+        <div id='popUpPane' className='hidden-pane'>
+          <div id='pop-up-text'>
+            {this.state.popUp === 'help' && <h1>Help</h1>}
+            {this.state.popUp === 'about' && <h1>About</h1>}
+          </div>
+        </div>
+        <Menu popUpPane={this.popUpPane} />
       </div>
     )
   };

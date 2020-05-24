@@ -17,6 +17,7 @@ class Menu extends React.Component {
     expandMenu = () => {
         let button = document.getElementById('menu-button');
         let menu = document.getElementById('menu-body');
+        if(button.className === 'expand') this.props.popUpPane('close');
         button.classList.toggle('expand');
         menu.classList.toggle('expand');
         menu.style = menu.className === 'expand' ? 'width:300px; height:300px; transform:translate(120px, -120px)': null;
@@ -27,7 +28,17 @@ class Menu extends React.Component {
             let X = -1*(130*Math.cos(i*space));
             let Y = (130*Math.sin(i*space));
             // console.log(nav[i],'X',X, 'Y',Y);
-            nav[i].style.opacity = menu.className === 'expand' ? '1' : null;
+            if(menu.className === 'expand') {
+                setTimeout(() => {
+                    nav[i].style.opacity = '1';
+                }, 350);
+            }
+            else {
+                setTimeout(() => {
+                    nav[i].style.opacity = null;
+                    nav[i].style.transition = 'all .5s ease-in';
+                }, 0);
+            }
             nav[i].style.transform = menu.className === 'expand' ? `translate(${X}px, ${Y}px)` : null;
             nav[i].style.transition = menu.className === 'expand' ? null : null;
         }
@@ -36,10 +47,8 @@ class Menu extends React.Component {
         return (
             <div>
                 <div id='menu-body'></div>
-                <h2 className='nav'>Help</h2>
-                <h2 className='nav'>About</h2>
-                <h2 className='nav'>Nav 3</h2>
-                <h2 className='nav'>Nav 4</h2>
+                <h2 onClick={() => this.props.popUpPane('text-help')} className='nav'>Help</h2>
+                <h2 onClick={() => this.props.popUpPane('text-about')} className='nav'>About</h2>
                 <div id='menu-button' onClick={this.expandMenu}>
                     <div className='menu-top'></div>                    
                     <div className='menu-mid'></div>                    
